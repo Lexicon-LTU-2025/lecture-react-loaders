@@ -1,0 +1,15 @@
+.g-card {
+  border: 1px solid black;
+  height: 620px;
+  margin: auto;
+  padding: 1rem;
+  width: 500px;
+}
+
+figure {
+  margin: 0;
+}
+
+img {
+  width: 100%;
+}
