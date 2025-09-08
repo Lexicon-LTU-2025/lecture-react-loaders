@@ -21,6 +21,8 @@ export interface IRawCocktailData {
   drinks: any[];
 }
 
-export interface IRCBlockingLoader {}
+export interface IRCBlockingLoader {
+  cocktail: ICocktail;
+}
 
 export interface IRCDeferredLoader {}
