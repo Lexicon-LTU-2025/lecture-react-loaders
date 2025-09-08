@@ -1,5 +1,5 @@
 import { fetchRC } from './api';
-import type { IRCBlockingLoader } from './types';
+import type { IRCBlockingLoader, IRCDeferredLoader } from './types';
 import { mapRawCocktailData } from './utilities';
 
 // A loader is a function that runs when a navigation has been initiatied to the Route owner of the loader. The loader runs and it is completed before the navigation is finalized. Whatever data it returns, will then be available inside the element of the Route owner. The data that is returned must be wrapped inside an object. "A data bag"
@@ -11,4 +11,8 @@ export const RCBlockingLoader = async (): Promise<IRCBlockingLoader> => {
   return { cocktail };
 };
 
-export const RCDeferredLoader = async () => {};
+export const RCDeferredLoader = async (): Promise<IRCDeferredLoader> => {
+  const cocktail = fetchRC().then(mapRawCocktailData);
+  // const cocktail = fetchRC().then((rc) => mapRawCocktailData(rc))
+  return { cocktail };
+};

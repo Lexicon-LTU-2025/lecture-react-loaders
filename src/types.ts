@@ -25,4 +25,6 @@ export interface IRCBlockingLoader {
   cocktail: ICocktail;
 }
 
-export interface IRCDeferredLoader {}
+export interface IRCDeferredLoader {
+  cocktail: Promise<ICocktail>;
+}

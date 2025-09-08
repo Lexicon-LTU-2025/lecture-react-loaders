@@ -13,6 +13,11 @@ export const HomeView = (): ReactElement => {
           {state === 'loading' ? <Spinner /> : 'To Random Cocktail View - Blocking'}
         </NavLink>
       </button>
+      <button className="link-btn">
+        <NavLink className="link" to="/random-deferred">
+          To Random Cocktail View - Deferred
+        </NavLink>
+      </button>
     </main>
   );
 };
