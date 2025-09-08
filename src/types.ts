@@ -21,10 +21,6 @@ export interface IRawCocktailData {
   drinks: any[];
 }
 
-export interface IRCBlockingLoader {
-  cocktail: ICocktail;
-}
+export interface IRCBlockingLoader {}
 
-export interface IRCDeferredLoader {
-  cocktail: Promise<ICocktail>;
-}
+export interface IRCDeferredLoader {}
