@@ -6,11 +6,13 @@ import type { IAppLoader } from '../types';
 export const SearchForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
   const { categories } = useRouteLoaderData('app') as IAppLoader;
+
+  const categoryRef = useRef<HTMLSelectElement>(null);
   const nameRef = useRef<HTMLInputElement>(null);
 
   const handleOnChange = () => {
-    if (!nameRef.current) return;
-    setSearchParams({ name: nameRef.current.value });
+    if (!categoryRef.current || !nameRef.current) return;
+    setSearchParams({ category: categoryRef.current.value, name: nameRef.current.value });
   };
 
   const debounceHandleOnChange = useDebounceCallback(handleOnChange, 600);
@@ -43,7 +45,7 @@ export const SearchForm = () => {
         </div>
         <div>
           <label htmlFor="select-categories">Categories</label>
-          <select id="select-categories">
+          <select id="select-categories" onChange={handleOnChange} ref={categoryRef}>
             <Suspense fallback={<option>Loading...</option>}>
               <Await children={(c: string[]) => renderOptions(c)} resolve={categories} />
             </Suspense>

@@ -1,5 +1,5 @@
 import type { LoaderFunctionArgs } from 'react-router';
-import { fetchCategories, fetchCocktailsByName, fetchRC } from './api';
+import { fetchCategories, fetchCocktailsByCategory, fetchCocktailsByName, fetchRC } from './api';
 import type { IAppLoader, IRCBlockingLoader, IRCDeferredLoader, ISearchLoader } from './types';
 import { mapRawCocktailData } from './utilities';
 
@@ -28,21 +28,39 @@ export const RCDeferredLoader = async (): Promise<IRCDeferredLoader> => {
 
 export const SearchLoader = async ({ request }: LoaderFunctionArgs): Promise<ISearchLoader> => {
   const url = new URL(request.url);
+  const category = url.searchParams.get('category') ?? '';
   const name = url.searchParams.get('name') ?? '';
 
-  if (!name) {
+  // If no category or name, return empty array.
+  if (!category && !name) {
     return { cocktails: Promise.resolve([]) };
   }
 
-  const cocktails = fetchCocktailsByName(name).then((rawCocktails) => {
+  // If no name, just a category. Search for cocktails by category.
+  if (!name) {
+    const cocktails = fetchCocktailsByCategory(category).then((rawCocktails) =>
+      rawCocktails.map((c) => mapRawCocktailData(c))
+    );
+
+    return { cocktails };
+  }
+
+  const filteredCocktails = fetchCocktailsByName(name).then((rawCocktails) => {
+    // If no search result, e.g null, return empty array.
     if (!rawCocktails) {
       return [];
     }
 
-    return rawCocktails.map((rc) => mapRawCocktailData(rc));
+    // Standard search, always by name first.
+    const cocktails = rawCocktails.map((rc) => mapRawCocktailData(rc));
+
+    // If we have a category present, filter internally with the filter method.
+    if (category) {
+      return cocktails.filter((c) => c.category === category);
+    }
+
+    return cocktails;
   });
 
-  console.log(cocktails);
-
-  return { cocktails };
+  return { cocktails: filteredCocktails };
 };
