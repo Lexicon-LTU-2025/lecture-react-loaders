@@ -1,7 +1,7 @@
 import { createBrowserRouter } from 'react-router';
 import { App } from './components/App';
 import { HomeView, RCBlockingView, RCDeferredView } from './views';
-import { RCBlockingLoader, RCDeferredLoader, SearchLoader } from './loaders';
+import { AppLoader, RCBlockingLoader, RCDeferredLoader, SearchLoader } from './loaders';
 import { SearchView } from './views/SearchView';
 
 export const router = createBrowserRouter([
@@ -10,10 +10,13 @@ export const router = createBrowserRouter([
       { element: <HomeView />, index: true },
       { element: <RCBlockingView />, loader: RCBlockingLoader, path: 'random-blocking' },
       { Component: RCDeferredView, loader: RCDeferredLoader, path: 'random-deferred' },
-      { element: <SearchView/>, loader: SearchLoader, path: 'search' },
+      { element: <SearchView />, loader: SearchLoader, path: 'search' },
     ],
+    id: 'app',
     element: <App />,
+    loader: AppLoader,
     path: '/',
     errorElement: <div>An error occured...</div>,
+    shouldRevalidate: () => false,
   },
 ]);

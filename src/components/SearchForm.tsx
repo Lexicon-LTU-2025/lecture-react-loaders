@@ -1,9 +1,11 @@
-import { useRef } from 'react';
-import { useSearchParams } from 'react-router';
+import { Suspense, useRef, type ReactNode } from 'react';
+import { Await, useRouteLoaderData, useSearchParams } from 'react-router';
 import { useDebounceCallback } from 'usehooks-ts';
+import type { IAppLoader } from '../types';
 
 export const SearchForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+  const { categories } = useRouteLoaderData('app') as IAppLoader;
   const nameRef = useRef<HTMLInputElement>(null);
 
   const handleOnChange = () => {
@@ -12,8 +14,18 @@ export const SearchForm = () => {
   };
 
   const debounceHandleOnChange = useDebounceCallback(handleOnChange, 600);
-
   const name = searchParams.get('name') ?? ''; // Nullish coalescing - fallback value in simple terms.
+
+  const renderOptions = (categories: string[]): ReactNode => (
+    <>
+      <option value="">Choose Category</option>
+      {categories.map((c) => (
+        <option key={c} value={c}>
+          {c}
+        </option>
+      ))}
+    </>
+  );
 
   return (
     <form id="search-form">
@@ -30,9 +42,11 @@ export const SearchForm = () => {
           />
         </div>
         <div>
-          <label htmlFor="categories">Categories</label>
-          <select id="categories">
-            
+          <label htmlFor="select-categories">Categories</label>
+          <select id="select-categories">
+            <Suspense fallback={<option>Loading...</option>}>
+              <Await children={(c: string[]) => renderOptions(c)} resolve={categories} />
+            </Suspense>
           </select>
         </div>
       </fieldset>
