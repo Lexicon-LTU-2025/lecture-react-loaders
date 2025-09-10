@@ -1,4 +1,4 @@
-import type { IRawCocktailData } from './types';
+import type { IRawData } from './types';
 import { sleep } from './utilities';
 
 export async function fetchRC() {
@@ -9,6 +9,12 @@ export async function fetchRC() {
     throw new Error();
   }
 
-  const data = (await res.json()) as IRawCocktailData; // { drinks: [raw] }
+  const data = (await res.json()) as IRawData; // { drinks: [raw] }
   return data.drinks[0];
+}
+
+export async function fetchCocktailsByName(name: string) {
+  const res = await fetch(`https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${name}`);
+  const data = (await res.json()) as IRawData;
+  return data.drinks;
 }

@@ -17,7 +17,7 @@ export interface IIngredient {
   measure: string | null;
 }
 
-export interface IRawCocktailData {
+export interface IRawData {
   drinks: any[];
 }
 
@@ -27,4 +27,8 @@ export interface IRCBlockingLoader {
 
 export interface IRCDeferredLoader {
   cocktail: Promise<ICocktail>;
+}
+
+export interface ISearchLoader {
+  cocktails: Promise<ICocktail[]>;
 }

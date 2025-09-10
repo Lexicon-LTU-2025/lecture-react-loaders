@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import { useSearchParams } from 'react-router';
+import { useDebounceCallback } from 'usehooks-ts';
 
 export const SearchForm = () => {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -9,6 +10,8 @@ export const SearchForm = () => {
     if (!nameRef.current) return;
     setSearchParams({ name: nameRef.current.value });
   };
+
+  const debounceHandleOnChange = useDebounceCallback(handleOnChange, 600);
 
   const name = searchParams.get('name') ?? ''; // Nullish coalescing - fallback value in simple terms.
 
@@ -21,7 +24,7 @@ export const SearchForm = () => {
           <input
             defaultValue={name}
             id="name"
-            onChange={handleOnChange}
+            onChange={debounceHandleOnChange}
             ref={nameRef}
             type="text"
           />
