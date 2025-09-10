@@ -1,5 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+export interface IAppLoader {
+  categories: Promise<string[]>;
+}
+
 export interface ICocktail {
   id: string;
   name: string;
@@ -15,6 +19,10 @@ export interface ICocktail {
 export interface IIngredient {
   ingredient: string;
   measure: string | null;
+}
+
+export interface IRawCategory {
+  strCategory: string;
 }
 
 export interface IRawData {

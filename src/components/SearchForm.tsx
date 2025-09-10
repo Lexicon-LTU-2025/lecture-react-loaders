@@ -29,6 +29,12 @@ export const SearchForm = () => {
             type="text"
           />
         </div>
+        <div>
+          <label htmlFor="categories">Categories</label>
+          <select id="categories">
+            
+          </select>
+        </div>
       </fieldset>
     </form>
   );
