@@ -1,3 +1,4 @@
+import type { LoaderFunctionArgs } from 'react-router';
 import { fetchRC } from './api';
 import type { IRCBlockingLoader, IRCDeferredLoader } from './types';
 import { mapRawCocktailData } from './utilities';
@@ -15,4 +16,15 @@ export const RCDeferredLoader = async (): Promise<IRCDeferredLoader> => {
   const cocktail = fetchRC().then(mapRawCocktailData);
   // const cocktail = fetchRC().then((rc) => mapRawCocktailData(rc))
   return { cocktail };
+};
+
+export const SearchLoader = async ({ request }: LoaderFunctionArgs): Promise<any> => {
+  const url = new URL(request.url);
+  console.log(request.url);
+  console.log(url);
+
+  const name = url.searchParams.get('name') ?? '';
+  console.log('name:', name);
+
+  return {};
 };
