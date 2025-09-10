@@ -1,3 +1,7 @@
 @import url('./global.css');
-@import url('./HomeView.css');
+
+@import url('./Header.css');
 @import url('./Spinner.css');
+
+@import url('./HomeView.css');
+@import url('./SearchView.css');
